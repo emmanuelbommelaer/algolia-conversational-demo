@@ -44,7 +44,7 @@ jobs:
         run: npm ci
       
       - name: Install algobot CLI
-        run: npm install -g @algolia/algobot-cli
+        run: npm install -g @pln_algolia/algobot-cli
       
       - name: Validate agent configuration
         run: |
@@ -177,7 +177,7 @@ jobs:
           echo "### Manual Sync:" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
           echo "# Install algobot CLI" >> $GITHUB_STEP_SUMMARY
-          echo "npm install -g @algolia/algobot-cli" >> $GITHUB_STEP_SUMMARY
+          echo "npm install -g @pln_algolia/algobot-cli" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "# Sync configuration" >> $GITHUB_STEP_SUMMARY
           echo "algobot agents patch ${{ steps.agent-config.outputs.agent_id }} --json agent-config/agent.json" >> $GITHUB_STEP_SUMMARY

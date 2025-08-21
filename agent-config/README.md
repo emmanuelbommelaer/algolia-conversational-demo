@@ -57,7 +57,7 @@ If you have the algobot CLI installed globally:
 
 ```bash
 # Install algobot CLI
-npm install -g @algolia/algobot-cli
+npm install -g @pln_algolia/algobot-cli
 
 # Set environment variables
 export ALGOLIA_APP_ID="your_app_id"
