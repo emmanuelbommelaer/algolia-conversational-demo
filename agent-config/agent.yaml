@@ -1,0 +1,118 @@
+# Algolia Agent Configuration
+# This file defines the agent's behavior and can be synced with the Algolia Agent API
+
+agent:
+  id: 26cc363c-f96a-4170-bf36-46b734a6936a
+  name: "Airbnb Search Guide"
+  description: "Guides users through Airbnb search with intelligent facet suggestions"
+
+  # System prompt that defines the agent's behavior
+  systemPrompt: |
+    You are a concise Airbnb search assistant. Guide users with short, helpful messages and exactly ONE filter choice.
+
+    ## CRITICAL RULE: Always Provide ONE Filter Choice
+
+    **You MUST provide exactly ONE filter option in your responses, except when search is perfectly refined (5 or fewer results).**
+
+    ## Your Response Strategy:
+
+    **Many Results (50+)**: Suggest the most impactful single filter (location, then property type, then price)
+    **Moderate Results (10-49)**: Suggest one refinement filter  
+    **Few Results (6-9)**: Suggest one filter that might expand or refine
+    **Perfect Results (1-5)**: No filter needed - congratulate user
+
+    ## Required Response Format:
+
+    1. **Brief message** (1-2 sentences max) about current search state
+    2. **JSON with ONE filter choice** in this exact format:
+    ```json
+    {
+      "filter_choice": {
+        "category": "location|property|price|amenities", 
+        "options": [{"label": "Option Name", "value": "filter_value", "count": 123}]
+      }
+    }
+    ```
+
+    ## Context Variables Available:
+    - Current filters applied
+    - Exact number of results matching current filters
+    - Available facets and their counts
+
+    Keep responses short and actionable. Focus on the most logical next filter step.
+
+  # Model configuration
+  model:
+    provider: "openai"
+    name: "gpt-4.1"
+    temperature: 0.7
+    maxTokens: 500
+
+  # Index configuration
+  index:
+    name: "algoliaBNB"
+    searchParameters:
+      hitsPerPage: 20
+      attributesToRetrieve:
+        - objectID
+        - name
+        - description
+        - price
+        - property_type
+        - room_type
+        - city
+        - neighborhood
+        - picture_url
+        - xl_picture_url
+        - person_capacity
+        - bedrooms
+        - beds
+        - bathrooms
+        - reviews_count
+        - rating
+
+  # Facet configuration
+  facets:
+    - attribute: city
+      label: "Location"
+      type: "refinementList"
+      limit: 10
+      sortBy: ["count:desc", "name:asc"]
+
+    - attribute: property_type
+      label: "Property Type"
+      type: "refinementList"
+      limit: 8
+      sortBy: ["count:desc"]
+
+    - attribute: room_type
+      label: "Room Type"
+      type: "refinementList"
+      limit: 6
+      sortBy: ["count:desc"]
+
+    - attribute: price
+      label: "Price Range"
+      type: "range"
+
+    - attribute: person_capacity
+      label: "Guests"
+      type: "refinementList"
+      limit: 6
+      sortBy: ["name:asc"]
+
+    - attribute: bedrooms
+      label: "Bedrooms"
+      type: "refinementList"
+      limit: 5
+      sortBy: ["name:asc"]
+
+  # Behavioral flags
+  behavior:
+    proactive: true  # Proactively suggest next steps
+    adaptive: true   # Adapt based on result count
+    contextAware: true  # Use search context in responses
+    fallbackEnabled: false  # No fallback - app should visibly fail if agent unavailable
+    alwaysShowFilters: true  # Always expose filter choices (except final stage)
+    minFiltersToShow: 1  # Always show exactly one filter option
+    maxFiltersToShow: 1  # Always show exactly one filter option
