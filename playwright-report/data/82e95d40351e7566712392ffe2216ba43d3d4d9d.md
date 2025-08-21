@@ -1,0 +1,705 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e6]:
+      - generic [ref=e7]:
+        - img [ref=e9]
+        - generic [ref=e11]:
+          - heading "Algolia Search" [level=1] [ref=e12]
+          - paragraph [ref=e13]: Powered by InstantSearch + AI
+      - generic [ref=e14]:
+        - generic [ref=e17]: Live Search
+        - button [ref=e18] [cursor=pointer]:
+          - img [ref=e19] [cursor=pointer]
+  - main [ref=e22]:
+    - generic [ref=e23]:
+      - generic [ref=e25]:
+        - generic [ref=e26]:
+          - generic [ref=e28]:
+            - img [ref=e30]
+            - generic [ref=e32]:
+              - heading "Agent-Guided Search" [level=3] [ref=e33]
+              - paragraph [ref=e34]: Use the guide on the right to find your perfect Airbnb
+          - generic [ref=e36]: 11,991 results found in 6ms
+        - generic [ref=e37]:
+          - generic [ref=e39]:
+            - generic [ref=e40]:
+              - generic [ref=e41]:
+                - img [ref=e42]
+                - heading "Filters" [level=2] [ref=e44]
+              - button "Clear all" [ref=e45] [cursor=pointer]:
+                - img [ref=e46] [cursor=pointer]
+                - text: Clear all
+            - generic [ref=e48]:
+              - generic [ref=e49]:
+                - heading "Room Type 3" [level=3] [ref=e50]:
+                  - text: Room Type
+                  - generic [ref=e51]: "3"
+                - generic [ref=e52]:
+                  - generic [ref=e53] [cursor=pointer]:
+                    - checkbox "Entire home/apt 6775" [ref=e55]
+                    - generic [ref=e56] [cursor=pointer]:
+                      - generic [ref=e57] [cursor=pointer]: Entire home/apt
+                      - generic [ref=e58] [cursor=pointer]: "6775"
+                  - generic [ref=e59] [cursor=pointer]:
+                    - checkbox "Private room 4907" [ref=e61]
+                    - generic [ref=e62] [cursor=pointer]:
+                      - generic [ref=e63] [cursor=pointer]: Private room
+                      - generic [ref=e64] [cursor=pointer]: "4907"
+                  - generic [ref=e65] [cursor=pointer]:
+                    - checkbox "Shared room 309" [ref=e67]
+                    - generic [ref=e68] [cursor=pointer]:
+                      - generic [ref=e69] [cursor=pointer]: Shared room
+                      - generic [ref=e70] [cursor=pointer]: "309"
+              - generic [ref=e71]:
+                - heading "Property Type 10" [level=3] [ref=e72]:
+                  - text: Property Type
+                  - generic [ref=e73]: "10"
+                - generic [ref=e74]:
+                  - generic [ref=e75] [cursor=pointer]:
+                    - checkbox "Apartment 8991" [ref=e77]
+                    - generic [ref=e78] [cursor=pointer]:
+                      - generic [ref=e79] [cursor=pointer]: Apartment
+                      - generic [ref=e80] [cursor=pointer]: "8991"
+                  - generic [ref=e81] [cursor=pointer]:
+                    - checkbox "House 1990" [ref=e83]
+                    - generic [ref=e84] [cursor=pointer]:
+                      - generic [ref=e85] [cursor=pointer]: House
+                      - generic [ref=e86] [cursor=pointer]: "1990"
+                  - generic [ref=e87] [cursor=pointer]:
+                    - checkbox "Bed & Breakfast 324" [ref=e89]
+                    - generic [ref=e90] [cursor=pointer]:
+                      - generic [ref=e91] [cursor=pointer]: Bed & Breakfast
+                      - generic [ref=e92] [cursor=pointer]: "324"
+                  - generic [ref=e93] [cursor=pointer]:
+                    - checkbox "Condominium 214" [ref=e95]
+                    - generic [ref=e96] [cursor=pointer]:
+                      - generic [ref=e97] [cursor=pointer]: Condominium
+                      - generic [ref=e98] [cursor=pointer]: "214"
+                  - generic [ref=e99] [cursor=pointer]:
+                    - checkbox "Loft 211" [ref=e101]
+                    - generic [ref=e102] [cursor=pointer]:
+                      - generic [ref=e103] [cursor=pointer]: Loft
+                      - generic [ref=e104] [cursor=pointer]: "211"
+                  - generic [ref=e105] [cursor=pointer]:
+                    - checkbox "Townhouse 134" [ref=e107]
+                    - generic [ref=e108] [cursor=pointer]:
+                      - generic [ref=e109] [cursor=pointer]: Townhouse
+                      - generic [ref=e110] [cursor=pointer]: "134"
+                  - generic [ref=e111] [cursor=pointer]:
+                    - checkbox "Other 51" [ref=e113]
+                    - generic [ref=e114] [cursor=pointer]:
+                      - generic [ref=e115] [cursor=pointer]: Other
+                      - generic [ref=e116] [cursor=pointer]: "51"
+                  - generic [ref=e117] [cursor=pointer]:
+                    - checkbox "Dorm 24" [ref=e119]
+                    - generic [ref=e120] [cursor=pointer]:
+                      - generic [ref=e121] [cursor=pointer]: Dorm
+                      - generic [ref=e122] [cursor=pointer]: "24"
+                  - button "Show 2 more..." [ref=e123] [cursor=pointer]
+              - generic [ref=e124]:
+                - heading "City 10" [level=3] [ref=e125]:
+                  - text: City
+                  - generic [ref=e126]: "10"
+                - generic [ref=e127]:
+                  - generic [ref=e128] [cursor=pointer]:
+                    - checkbox "San Francisco 995" [ref=e130]
+                    - generic [ref=e131] [cursor=pointer]:
+                      - generic [ref=e132] [cursor=pointer]: San Francisco
+                      - generic [ref=e133] [cursor=pointer]: "995"
+                  - generic [ref=e134] [cursor=pointer]:
+                    - checkbox "Berlin 994" [ref=e136]
+                    - generic [ref=e137] [cursor=pointer]:
+                      - generic [ref=e138] [cursor=pointer]: Berlin
+                      - generic [ref=e139] [cursor=pointer]: "994"
+                  - generic [ref=e140] [cursor=pointer]:
+                    - checkbox "Chicago 988" [ref=e142]
+                    - generic [ref=e143] [cursor=pointer]:
+                      - generic [ref=e144] [cursor=pointer]: Chicago
+                      - generic [ref=e145] [cursor=pointer]: "988"
+                  - generic [ref=e146] [cursor=pointer]:
+                    - checkbox "Paris 988" [ref=e148]
+                    - generic [ref=e149] [cursor=pointer]:
+                      - generic [ref=e150] [cursor=pointer]: Paris
+                      - generic [ref=e151] [cursor=pointer]: "988"
+                  - generic [ref=e152] [cursor=pointer]:
+                    - checkbox "Houston 975" [ref=e154]
+                    - generic [ref=e155] [cursor=pointer]:
+                      - generic [ref=e156] [cursor=pointer]: Houston
+                      - generic [ref=e157] [cursor=pointer]: "975"
+                  - generic [ref=e158] [cursor=pointer]:
+                    - checkbox "London 943" [ref=e160]
+                    - generic [ref=e161] [cursor=pointer]:
+                      - generic [ref=e162] [cursor=pointer]: London
+                      - generic [ref=e163] [cursor=pointer]: "943"
+                  - generic [ref=e164] [cursor=pointer]:
+                    - checkbox "Dallas 803" [ref=e166]
+                    - generic [ref=e167] [cursor=pointer]:
+                      - generic [ref=e168] [cursor=pointer]: Dallas
+                      - generic [ref=e169] [cursor=pointer]: "803"
+                  - generic [ref=e170] [cursor=pointer]:
+                    - checkbox "New York 612" [ref=e172]
+                    - generic [ref=e173] [cursor=pointer]:
+                      - generic [ref=e174] [cursor=pointer]: New York
+                      - generic [ref=e175] [cursor=pointer]: "612"
+                  - button "Show 2 more..." [ref=e176] [cursor=pointer]
+              - generic [ref=e177]:
+                - heading "Price Range" [level=3] [ref=e178]:
+                  - text: Price Range
+                  - img [ref=e179]
+                - generic [ref=e182]:
+                  - generic [ref=e183]:
+                    - generic [ref=e184]:
+                      - generic [ref=e185]: Min Price
+                      - generic [ref=e186]:
+                        - generic [ref=e187]: $
+                        - spinbutton [ref=e188]
+                    - generic [ref=e189]:
+                      - generic [ref=e190]: Max Price
+                      - generic [ref=e191]:
+                        - generic [ref=e192]: $
+                        - spinbutton [ref=e193]
+                  - generic [ref=e194]: "Available range: $10 - $1,750"
+              - generic [ref=e195]:
+                - heading "Guests 10" [level=3] [ref=e196]:
+                  - text: Guests
+                  - generic [ref=e197]: "10"
+                - generic [ref=e198]:
+                  - generic [ref=e199] [cursor=pointer]:
+                    - checkbox "2 6183" [ref=e201]
+                    - generic [ref=e202] [cursor=pointer]:
+                      - generic [ref=e203] [cursor=pointer]: "2"
+                      - generic [ref=e204] [cursor=pointer]: "6183"
+                  - generic [ref=e205] [cursor=pointer]:
+                    - checkbox "4 1997" [ref=e207]
+                    - generic [ref=e208] [cursor=pointer]:
+                      - generic [ref=e209] [cursor=pointer]: "4"
+                      - generic [ref=e210] [cursor=pointer]: "1997"
+                  - generic [ref=e211] [cursor=pointer]:
+                    - checkbox "3 1473" [ref=e213]
+                    - generic [ref=e214] [cursor=pointer]:
+                      - generic [ref=e215] [cursor=pointer]: "3"
+                      - generic [ref=e216] [cursor=pointer]: "1473"
+                  - generic [ref=e217] [cursor=pointer]:
+                    - checkbox "1 1186" [ref=e219]
+                    - generic [ref=e220] [cursor=pointer]:
+                      - generic [ref=e221] [cursor=pointer]: "1"
+                      - generic [ref=e222] [cursor=pointer]: "1186"
+                  - generic [ref=e223] [cursor=pointer]:
+                    - checkbox "6 452" [ref=e225]
+                    - generic [ref=e226] [cursor=pointer]:
+                      - generic [ref=e227] [cursor=pointer]: "6"
+                      - generic [ref=e228] [cursor=pointer]: "452"
+                  - generic [ref=e229] [cursor=pointer]:
+                    - checkbox "5 409" [ref=e231]
+                    - generic [ref=e232] [cursor=pointer]:
+                      - generic [ref=e233] [cursor=pointer]: "5"
+                      - generic [ref=e234] [cursor=pointer]: "409"
+                  - generic [ref=e235] [cursor=pointer]:
+                    - checkbox "8 119" [ref=e237]
+                    - generic [ref=e238] [cursor=pointer]:
+                      - generic [ref=e239] [cursor=pointer]: "8"
+                      - generic [ref=e240] [cursor=pointer]: "119"
+                  - generic [ref=e241] [cursor=pointer]:
+                    - checkbox "7 73" [ref=e243]
+                    - generic [ref=e244] [cursor=pointer]:
+                      - generic [ref=e245] [cursor=pointer]: "7"
+                      - generic [ref=e246] [cursor=pointer]: "73"
+                  - button "Show 2 more..." [ref=e247] [cursor=pointer]
+              - generic [ref=e248]:
+                - heading "Bedrooms 8" [level=3] [ref=e249]:
+                  - text: Bedrooms
+                  - generic [ref=e250]: "8"
+                - generic [ref=e251]:
+                  - generic [ref=e252] [cursor=pointer]:
+                    - checkbox "1 9147" [ref=e254]
+                    - generic [ref=e255] [cursor=pointer]:
+                      - generic [ref=e256] [cursor=pointer]: "1"
+                      - generic [ref=e257] [cursor=pointer]: "9147"
+                  - generic [ref=e258] [cursor=pointer]:
+                    - checkbox "2 1313" [ref=e260]
+                    - generic [ref=e261] [cursor=pointer]:
+                      - generic [ref=e262] [cursor=pointer]: "2"
+                      - generic [ref=e263] [cursor=pointer]: "1313"
+                  - generic [ref=e264] [cursor=pointer]:
+                    - checkbox "0 1096" [ref=e266]
+                    - generic [ref=e267] [cursor=pointer]:
+                      - generic [ref=e268] [cursor=pointer]: "0"
+                      - generic [ref=e269] [cursor=pointer]: "1096"
+                  - generic [ref=e270] [cursor=pointer]:
+                    - checkbox "3 301" [ref=e272]
+                    - generic [ref=e273] [cursor=pointer]:
+                      - generic [ref=e274] [cursor=pointer]: "3"
+                      - generic [ref=e275] [cursor=pointer]: "301"
+                  - generic [ref=e276] [cursor=pointer]:
+                    - checkbox "4 84" [ref=e278]
+                    - generic [ref=e279] [cursor=pointer]:
+                      - generic [ref=e280] [cursor=pointer]: "4"
+                      - generic [ref=e281] [cursor=pointer]: "84"
+                  - generic [ref=e282] [cursor=pointer]:
+                    - checkbox "5 9" [ref=e284]
+                    - generic [ref=e285] [cursor=pointer]:
+                      - generic [ref=e286] [cursor=pointer]: "5"
+                      - generic [ref=e287] [cursor=pointer]: "9"
+                  - generic [ref=e288] [cursor=pointer]:
+                    - checkbox "6 2" [ref=e290]
+                    - generic [ref=e291] [cursor=pointer]:
+                      - generic [ref=e292] [cursor=pointer]: "6"
+                      - generic [ref=e293] [cursor=pointer]: "2"
+                  - generic [ref=e294] [cursor=pointer]:
+                    - checkbox "8 1" [ref=e296]
+                    - generic [ref=e297] [cursor=pointer]:
+                      - generic [ref=e298] [cursor=pointer]: "8"
+                      - generic [ref=e299] [cursor=pointer]: "1"
+          - generic [ref=e301]:
+            - generic [ref=e303]:
+              - heading "Products" [level=2] [ref=e304]
+              - generic [ref=e305]: 11,991 results
+            - generic [ref=e306]:
+              - generic [ref=e307]:
+                - generic [ref=e308]:
+                  - img "Potrero Hill Garden Suite" [ref=e309]
+                  - generic [ref=e310]:
+                    - generic [ref=e311]: ★
+                    - generic [ref=e312]: "5.0"
+                - generic [ref=e313]:
+                  - generic [ref=e315]: Entire home/apt
+                  - heading "Potrero Hill Garden Suite" [level=3] [ref=e316]
+                  - paragraph [ref=e317]: House in San Francisco, Potrero Hill
+                  - generic [ref=e318]:
+                    - generic [ref=e319]: 1 bed
+                    - generic [ref=e320]: 1 bath
+                    - generic [ref=e321]: 2 guests
+                    - generic [ref=e322]: 394 reviews
+                  - generic [ref=e323]:
+                    - generic [ref=e324]:
+                      - generic [ref=e325]: $190
+                      - generic [ref=e326]: per night
+                      - generic [ref=e327]: Potrero Hill
+                    - button "View Details" [ref=e328] [cursor=pointer]
+              - generic [ref=e329]:
+                - generic [ref=e330]:
+                  - 'img "JazzVille: Bn''B Boston & Cambridge" [ref=e331]'
+                  - generic [ref=e332]:
+                    - generic [ref=e333]: ★
+                    - generic [ref=e334]: "5.0"
+                - generic [ref=e335]:
+                  - generic [ref=e337]: Private room
+                  - 'heading "JazzVille: Bn''B Boston & Cambridge" [level=3] [ref=e338]'
+                  - paragraph [ref=e339]: Bed & Breakfast in Cambridge, Cambridge
+                  - generic [ref=e340]:
+                    - generic [ref=e341]: 1 bed
+                    - generic [ref=e342]: 2 baths
+                    - generic [ref=e343]: 2 guests
+                    - generic [ref=e344]: 391 reviews
+                  - generic [ref=e345]:
+                    - generic [ref=e346]:
+                      - generic [ref=e347]: $124
+                      - generic [ref=e348]: per night
+                      - generic [ref=e349]: Cambridge
+                    - button "View Details" [ref=e350] [cursor=pointer]
+              - generic [ref=e351]:
+                - generic [ref=e352]:
+                  - img "Architects Live-in Studio in Boston" [ref=e353]
+                  - generic [ref=e354]:
+                    - generic [ref=e355]: ★
+                    - generic [ref=e356]: "5.0"
+                - generic [ref=e357]:
+                  - generic [ref=e359]: Entire home/apt
+                  - heading "Architects Live-in Studio in Boston" [level=3] [ref=e360]
+                  - paragraph [ref=e361]: Apartment in Boston, Mission Hill
+                  - generic [ref=e362]:
+                    - text: "0"
+                    - generic [ref=e363]: 1 bath
+                    - generic [ref=e364]: 2 guests
+                    - generic [ref=e365]: 352 reviews
+                  - generic [ref=e366]:
+                    - generic [ref=e367]:
+                      - generic [ref=e368]: $75
+                      - generic [ref=e369]: per night
+                      - generic [ref=e370]: Mission Hill
+                    - button "View Details" [ref=e371] [cursor=pointer]
+              - generic [ref=e372]:
+                - generic [ref=e373]:
+                  - img "Mission Sunshine, with Private Bath" [ref=e374]
+                  - generic [ref=e375]:
+                    - generic [ref=e376]: ★
+                    - generic [ref=e377]: "5.0"
+                - generic [ref=e378]:
+                  - generic [ref=e380]: Private room
+                  - heading "Mission Sunshine, with Private Bath" [level=3] [ref=e381]
+                  - paragraph [ref=e382]: Apartment in San Francisco, Mission District
+                  - generic [ref=e383]:
+                    - generic [ref=e384]: 1 bed
+                    - generic [ref=e385]: 1 bath
+                    - generic [ref=e386]: 3 guests
+                    - generic [ref=e387]: 352 reviews
+                  - generic [ref=e388]:
+                    - generic [ref=e389]:
+                      - generic [ref=e390]: $120
+                      - generic [ref=e391]: per night
+                      - generic [ref=e392]: Mission District
+                    - button "View Details" [ref=e393] [cursor=pointer]
+              - generic [ref=e394]:
+                - generic [ref=e395]:
+                  - img "Notre-Dame &Louvre at your doorstep" [ref=e396]
+                  - generic [ref=e397]:
+                    - generic [ref=e398]: ★
+                    - generic [ref=e399]: "5.0"
+                - generic [ref=e400]:
+                  - generic [ref=e402]: Entire home/apt
+                  - heading "Notre-Dame &Louvre at your doorstep" [level=3] [ref=e403]
+                  - paragraph [ref=e404]: Apartment in Paris, Châtelet - Les Halles - Beaubourg
+                  - generic [ref=e405]:
+                    - text: "0"
+                    - generic [ref=e406]: 1 bath
+                    - generic [ref=e407]: 2 guests
+                    - generic [ref=e408]: 350 reviews
+                  - generic [ref=e409]:
+                    - generic [ref=e410]:
+                      - generic [ref=e411]: $99
+                      - generic [ref=e412]: per night
+                      - generic [ref=e413]: Châtelet - Les Halles - Beaubourg
+                    - button "View Details" [ref=e414] [cursor=pointer]
+              - generic [ref=e415]:
+                - generic [ref=e416]:
+                  - img "Potrero Hill Garden Cabana" [ref=e417]
+                  - generic [ref=e418]:
+                    - generic [ref=e419]: ★
+                    - generic [ref=e420]: "5.0"
+                - generic [ref=e421]:
+                  - generic [ref=e423]: Entire home/apt
+                  - heading "Potrero Hill Garden Cabana" [level=3] [ref=e424]
+                  - paragraph [ref=e425]: Cabin in San Francisco, Potrero Hill
+                  - generic [ref=e426]:
+                    - generic [ref=e427]: 1 bed
+                    - generic [ref=e428]: 1 bath
+                    - generic [ref=e429]: 2 guests
+                    - generic [ref=e430]: 349 reviews
+                  - generic [ref=e431]:
+                    - generic [ref=e432]:
+                      - generic [ref=e433]: $190
+                      - generic [ref=e434]: per night
+                      - generic [ref=e435]: Potrero Hill
+                    - button "View Details" [ref=e436] [cursor=pointer]
+              - generic [ref=e437]:
+                - generic [ref=e438]:
+                  - img "connected ,centrally located pad" [ref=e439]
+                  - generic [ref=e440]:
+                    - generic [ref=e441]: ★
+                    - generic [ref=e442]: "5.0"
+                - generic [ref=e443]:
+                  - generic [ref=e445]: Private room
+                  - heading "connected ,centrally located pad" [level=3] [ref=e446]
+                  - paragraph [ref=e447]: Apartment in Somerville, Somerville
+                  - generic [ref=e448]:
+                    - generic [ref=e449]: 1 bed
+                    - text: "0"
+                    - generic [ref=e450]: 2 guests
+                    - generic [ref=e451]: 344 reviews
+                  - generic [ref=e452]:
+                    - generic [ref=e453]:
+                      - generic [ref=e454]: $46
+                      - generic [ref=e455]: per night
+                      - generic [ref=e456]: Somerville
+                    - button "View Details" [ref=e457] [cursor=pointer]
+              - generic [ref=e458]:
+                - generic [ref=e459]:
+                  - img "You Will Save Money Here" [ref=e460]
+                  - generic [ref=e461]:
+                    - generic [ref=e462]: ★
+                    - generic [ref=e463]: "5.0"
+                - generic [ref=e464]:
+                  - generic [ref=e466]: Private room
+                  - heading "You Will Save Money Here" [level=3] [ref=e467]
+                  - paragraph [ref=e468]: Bed & Breakfast in East Finchley
+                  - generic [ref=e469]:
+                    - generic [ref=e470]: 1 bed
+                    - text: "0"
+                    - generic [ref=e471]: 2 guests
+                    - generic [ref=e472]: 332 reviews
+                  - generic [ref=e473]:
+                    - generic [ref=e474]:
+                      - generic [ref=e475]: $77
+                      - generic [ref=e476]: per night
+                      - generic [ref=e477]: East Finchley
+                    - button "View Details" [ref=e478] [cursor=pointer]
+              - generic [ref=e479]:
+                - generic [ref=e480]:
+                  - img "centrally located, connected pad" [ref=e481]
+                  - generic [ref=e482]:
+                    - generic [ref=e483]: ★
+                    - generic [ref=e484]: "5.0"
+                - generic [ref=e485]:
+                  - generic [ref=e487]: Private room
+                  - heading "centrally located, connected pad" [level=3] [ref=e488]
+                  - paragraph [ref=e489]: Apartment in Somerville, Somerville
+                  - generic [ref=e490]:
+                    - generic [ref=e491]: 1 bed
+                    - generic [ref=e492]: 1 bath
+                    - generic [ref=e493]: 2 guests
+                    - generic [ref=e494]: 328 reviews
+                  - generic [ref=e495]:
+                    - generic [ref=e496]:
+                      - generic [ref=e497]: $46
+                      - generic [ref=e498]: per night
+                      - generic [ref=e499]: Somerville
+                    - button "View Details" [ref=e500] [cursor=pointer]
+              - generic [ref=e501]:
+                - generic [ref=e502]:
+                  - img "Potrero Hill Garden Lookout" [ref=e503]
+                  - generic [ref=e504]:
+                    - generic [ref=e505]: ★
+                    - generic [ref=e506]: "5.0"
+                - generic [ref=e507]:
+                  - generic [ref=e509]: Entire home/apt
+                  - heading "Potrero Hill Garden Lookout" [level=3] [ref=e510]
+                  - paragraph [ref=e511]: House in San Francisco, Potrero Hill
+                  - generic [ref=e512]:
+                    - generic [ref=e513]: 1 bed
+                    - generic [ref=e514]: 1 bath
+                    - generic [ref=e515]: 2 guests
+                    - generic [ref=e516]: 328 reviews
+                  - generic [ref=e517]:
+                    - generic [ref=e518]:
+                      - generic [ref=e519]: $190
+                      - generic [ref=e520]: per night
+                      - generic [ref=e521]: Potrero Hill
+                    - button "View Details" [ref=e522] [cursor=pointer]
+              - generic [ref=e523]:
+                - generic [ref=e524]:
+                  - img "Close and Convenient to everywhere" [ref=e525]
+                  - generic [ref=e526]:
+                    - generic [ref=e527]: ★
+                    - generic [ref=e528]: "5.0"
+                - generic [ref=e529]:
+                  - generic [ref=e531]: Private room
+                  - heading "Close and Convenient to everywhere" [level=3] [ref=e532]
+                  - paragraph [ref=e533]: Apartment in Somerville, Somerville
+                  - generic [ref=e534]:
+                    - generic [ref=e535]: 1 bed
+                    - generic [ref=e536]: 1 bath
+                    - generic [ref=e537]: 2 guests
+                    - generic [ref=e538]: 314 reviews
+                  - generic [ref=e539]:
+                    - generic [ref=e540]:
+                      - generic [ref=e541]: $46
+                      - generic [ref=e542]: per night
+                      - generic [ref=e543]: Somerville
+                    - button "View Details" [ref=e544] [cursor=pointer]
+              - generic [ref=e545]:
+                - generic [ref=e546]:
+                  - img "Sunny Library in Victorian Home" [ref=e547]
+                  - generic [ref=e548]:
+                    - generic [ref=e549]: ★
+                    - generic [ref=e550]: "5.0"
+                - generic [ref=e551]:
+                  - generic [ref=e553]: Private room
+                  - heading "Sunny Library in Victorian Home" [level=3] [ref=e554]
+                  - paragraph [ref=e555]: Apartment in Somerville, Somerville
+                  - generic [ref=e556]:
+                    - generic [ref=e557]: 1 bed
+                    - generic [ref=e558]: 1 bath
+                    - generic [ref=e559]: 2 guests
+                    - generic [ref=e560]: 313 reviews
+                  - generic [ref=e561]:
+                    - generic [ref=e562]:
+                      - generic [ref=e563]: $49
+                      - generic [ref=e564]: per night
+                      - generic [ref=e565]: Somerville
+                    - button "View Details" [ref=e566] [cursor=pointer]
+              - generic [ref=e567]:
+                - generic [ref=e568]:
+                  - img "**CENTRAL** Comfy Artist's Home" [ref=e569]
+                  - generic [ref=e570]:
+                    - generic [ref=e571]: ★
+                    - generic [ref=e572]: "5.0"
+                - generic [ref=e573]:
+                  - generic [ref=e575]: Private room
+                  - heading "**CENTRAL** Comfy Artist's Home" [level=3] [ref=e576]
+                  - paragraph [ref=e577]: Apartment in London, LB of Camden
+                  - generic [ref=e578]:
+                    - generic [ref=e579]: 1 bed
+                    - generic [ref=e580]: 1 bath
+                    - generic [ref=e581]: 4 guests
+                    - generic [ref=e582]: 302 reviews
+                  - generic [ref=e583]:
+                    - generic [ref=e584]:
+                      - generic [ref=e585]: $85
+                      - generic [ref=e586]: per night
+                      - generic [ref=e587]: LB of Camden
+                    - button "View Details" [ref=e588] [cursor=pointer]
+              - generic [ref=e589]:
+                - generic [ref=e590]:
+                  - img "Central guestroom! Walk everywhere!" [ref=e591]
+                  - generic [ref=e592]:
+                    - generic [ref=e593]: ★
+                    - generic [ref=e594]: "5.0"
+                - generic [ref=e595]:
+                  - generic [ref=e597]: Private room
+                  - heading "Central guestroom! Walk everywhere!" [level=3] [ref=e598]
+                  - paragraph [ref=e599]: Apartment in Chicago, River North
+                  - generic [ref=e600]:
+                    - generic [ref=e601]: 1 bed
+                    - generic [ref=e602]: 2 guests
+                    - generic [ref=e603]: 301 reviews
+                  - generic [ref=e604]:
+                    - generic [ref=e605]:
+                      - generic [ref=e606]: $90
+                      - generic [ref=e607]: per night
+                      - generic [ref=e608]: River North
+                    - button "View Details" [ref=e609] [cursor=pointer]
+              - generic [ref=e610]:
+                - generic [ref=e611]:
+                  - img "Charming room in spacious apartment" [ref=e612]
+                  - generic [ref=e613]:
+                    - generic [ref=e614]: ★
+                    - generic [ref=e615]: "5.0"
+                - generic [ref=e616]:
+                  - generic [ref=e618]: Private room
+                  - heading "Charming room in spacious apartment" [level=3] [ref=e619]
+                  - paragraph [ref=e620]: Apartment in Paris, XI Arrondissement
+                  - generic [ref=e621]:
+                    - generic [ref=e622]: 1 bed
+                    - generic [ref=e623]: 2 baths
+                    - generic [ref=e624]: 2 guests
+                    - generic [ref=e625]: 300 reviews
+                  - generic [ref=e626]:
+                    - generic [ref=e627]:
+                      - generic [ref=e628]: $66
+                      - generic [ref=e629]: per night
+                      - generic [ref=e630]: XI Arrondissement
+                    - button "View Details" [ref=e631] [cursor=pointer]
+              - generic [ref=e632]:
+                - generic [ref=e633]:
+                  - img "Charming studio with postcard view" [ref=e634]
+                  - generic [ref=e635]:
+                    - generic [ref=e636]: ★
+                    - generic [ref=e637]: "5.0"
+                - generic [ref=e638]:
+                  - generic [ref=e640]: Entire home/apt
+                  - heading "Charming studio with postcard view" [level=3] [ref=e641]
+                  - paragraph [ref=e642]: Apartment in Paris, Le Marais
+                  - generic [ref=e643]:
+                    - generic [ref=e644]: 1 bed
+                    - generic [ref=e645]: 1 bath
+                    - generic [ref=e646]: 2 guests
+                    - generic [ref=e647]: 297 reviews
+                  - generic [ref=e648]:
+                    - generic [ref=e649]:
+                      - generic [ref=e650]: $66
+                      - generic [ref=e651]: per night
+                      - generic [ref=e652]: Le Marais
+                    - button "View Details" [ref=e653] [cursor=pointer]
+              - generic [ref=e654]:
+                - generic [ref=e655]:
+                  - img "ROME COLOSSEUM TERMINI B&B NILI RED" [ref=e656]
+                  - generic [ref=e657]:
+                    - generic [ref=e658]: ★
+                    - generic [ref=e659]: "5.0"
+                - generic [ref=e660]:
+                  - generic [ref=e662]: Private room
+                  - heading "ROME COLOSSEUM TERMINI B&B NILI RED" [level=3] [ref=e663]
+                  - paragraph [ref=e664]: Bed & Breakfast in Rome, Esquilino
+                  - generic [ref=e665]:
+                    - generic [ref=e666]: 1 bed
+                    - generic [ref=e667]: 1 bath
+                    - generic [ref=e668]: 2 guests
+                    - generic [ref=e669]: 292 reviews
+                  - generic [ref=e670]:
+                    - generic [ref=e671]:
+                      - generic [ref=e672]: $41
+                      - generic [ref=e673]: per night
+                      - generic [ref=e674]: Esquilino
+                    - button "View Details" [ref=e675] [cursor=pointer]
+              - generic [ref=e676]:
+                - generic [ref=e677]:
+                  - 'img "MARAIS: Unique studio with GARDEN" [ref=e678]'
+                  - generic [ref=e679]:
+                    - generic [ref=e680]: ★
+                    - generic [ref=e681]: "5.0"
+                - generic [ref=e682]:
+                  - generic [ref=e684]: Entire home/apt
+                  - 'heading "MARAIS: Unique studio with GARDEN" [level=3] [ref=e685]'
+                  - paragraph [ref=e686]: Apartment in Paris, Le Marais
+                  - generic [ref=e687]:
+                    - generic [ref=e688]: 1 bed
+                    - generic [ref=e689]: 1 bath
+                    - generic [ref=e690]: 2 guests
+                    - generic [ref=e691]: 292 reviews
+                  - generic [ref=e692]:
+                    - generic [ref=e693]:
+                      - generic [ref=e694]: $86
+                      - generic [ref=e695]: per night
+                      - generic [ref=e696]: Le Marais
+                    - button "View Details" [ref=e697] [cursor=pointer]
+              - generic [ref=e698]:
+                - generic [ref=e699]:
+                  - img "Big room in a spacious apartment" [ref=e700]
+                  - generic [ref=e701]:
+                    - generic [ref=e702]: ★
+                    - generic [ref=e703]: "5.0"
+                - generic [ref=e704]:
+                  - generic [ref=e706]: Private room
+                  - heading "Big room in a spacious apartment" [level=3] [ref=e707]
+                  - paragraph [ref=e708]: Apartment in Paris, XI Arrondissement
+                  - generic [ref=e709]:
+                    - generic [ref=e710]: 1 bed
+                    - generic [ref=e711]: 2 baths
+                    - generic [ref=e712]: 2 guests
+                    - generic [ref=e713]: 291 reviews
+                  - generic [ref=e714]:
+                    - generic [ref=e715]:
+                      - generic [ref=e716]: $72
+                      - generic [ref=e717]: per night
+                      - generic [ref=e718]: XI Arrondissement
+                    - button "View Details" [ref=e719] [cursor=pointer]
+              - generic [ref=e720]:
+                - generic [ref=e721]:
+                  - img "Amazing design flat heart of Paris!" [ref=e722]
+                  - generic [ref=e723]:
+                    - generic [ref=e724]: ★
+                    - generic [ref=e725]: "5.0"
+                - generic [ref=e726]:
+                  - generic [ref=e728]: Entire home/apt
+                  - heading "Amazing design flat heart of Paris!" [level=3] [ref=e729]
+                  - paragraph [ref=e730]: Apartment in Paris, Saint-Lazare
+                  - generic [ref=e731]:
+                    - generic [ref=e732]: 1 bed
+                    - generic [ref=e733]: 1 bath
+                    - generic [ref=e734]: 4 guests
+                    - generic [ref=e735]: 290 reviews
+                  - generic [ref=e736]:
+                    - generic [ref=e737]:
+                      - generic [ref=e738]: $65
+                      - generic [ref=e739]: per night
+                      - generic [ref=e740]: Saint-Lazare
+                    - button "View Details" [ref=e741] [cursor=pointer]
+            - generic [ref=e743]:
+              - button "← Previous" [disabled] [ref=e744]
+              - generic [ref=e745]:
+                - button "1" [ref=e746] [cursor=pointer]
+                - button "2" [ref=e747] [cursor=pointer]
+                - button "3" [ref=e748] [cursor=pointer]
+                - button "4" [ref=e749] [cursor=pointer]
+                - button "5" [ref=e750] [cursor=pointer]
+                - button "6" [ref=e751] [cursor=pointer]
+                - button "7" [ref=e752] [cursor=pointer]
+              - button "Next →" [ref=e753] [cursor=pointer]
+      - generic [ref=e755]:
+        - generic [ref=e756]:
+          - generic [ref=e757]:
+            - generic [ref=e758]: 📍
+            - generic [ref=e759]:
+              - heading "Your Search Guide" [level=2] [ref=e760]
+              - paragraph [ref=e761]: Finding your perfect stay
+          - generic [ref=e764]: 0 properties found
+        - generic [ref=e767]:
+          - img [ref=e769]
+          - paragraph [ref=e772]: Welcome! I'll help you find the perfect Airbnb. Let's start by choosing a location. Where would you like to stay?
+        - generic [ref=e774]:
+          - generic [ref=e775]: Search Progress
+          - generic [ref=e776]: Building your search
+```

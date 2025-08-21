@@ -1,11 +1,11 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
-import type { SearchState } from '../types';
+import type { SearchState, FilterValue } from '../types';
 
 interface SearchContextType {
   searchState: SearchState;
   updateQuery: (query: string) => void;
-  updateFilters: (filters: Record<string, any>) => void;
-  addFilter: (field: string, value: any) => void;
+  updateFilters: (filters: Record<string, FilterValue>) => void;
+  addFilter: (field: string, value: FilterValue) => void;
   removeFilter: (field: string) => void;
   updatePage: (page: number) => void;
   resetSearch: () => void;
@@ -26,11 +26,11 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     setSearchState(prev => ({ ...prev, query, page: 0 }));
   }, []);
 
-  const updateFilters = useCallback((filters: Record<string, any>) => {
+  const updateFilters = useCallback((filters: Record<string, FilterValue>) => {
     setSearchState(prev => ({ ...prev, filters, page: 0 }));
   }, []);
 
-  const addFilter = useCallback((field: string, value: any) => {
+  const addFilter = useCallback((field: string, value: FilterValue) => {
     setSearchState(prev => ({
       ...prev,
       filters: { ...prev.filters, [field]: value },

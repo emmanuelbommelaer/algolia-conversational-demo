@@ -4,7 +4,7 @@ import type { FilterSuggestion } from '../types';
 const AGENT_API_URL = import.meta.env.VITE_AGENT_API_URL || 'https://conversational-ai-dev.algolia.com';
 const AGENT_ID = import.meta.env.VITE_AGENT_ID || '';
 const APP_ID = import.meta.env.VITE_ALGOLIA_APP_ID || '';
-const API_KEY = import.meta.env.VITE_AGENT_API_KEY || '';
+const API_KEY = import.meta.env.VITE_ALGOLIA_API_KEY || ''; // Use the same Algolia search API key
 
 interface AgentResponse {
   message: string;

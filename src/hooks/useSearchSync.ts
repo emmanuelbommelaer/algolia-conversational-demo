@@ -1,48 +1,46 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useInstantSearch, useSearchBox, useCurrentRefinements } from 'react-instantsearch';
 import { useSearch } from '../contexts/SearchContext';
 
 export const useSearchSync = () => {
-  const { searchState, updateQuery, updateFilters } = useSearch();
+  const { updateQuery, updateFilters } = useSearch();
   const { results } = useInstantSearch();
-  const { query, refine } = useSearchBox();
+  const { query } = useSearchBox();
   const { items: currentRefinements } = useCurrentRefinements();
+  
+  // Use refs to track previous values to avoid infinite loops
+  const prevQueryRef = useRef<string>('');
+  const prevFiltersRef = useRef<string>('');
 
-  // Sync search query from context to InstantSearch
+  // Sync InstantSearch query changes to context (one-way only)
   useEffect(() => {
-    if (searchState.query !== query) {
-      refine(searchState.query);
-    }
-  }, [searchState.query, query, refine]);
-
-  // Sync InstantSearch query changes back to context
-  useEffect(() => {
-    if (query !== searchState.query) {
+    if (query !== prevQueryRef.current) {
+      prevQueryRef.current = query;
       updateQuery(query);
     }
-  }, [query, searchState.query, updateQuery]);
+  }, [query, updateQuery]);
 
-  // Sync refinements to context
+  // Sync InstantSearch refinements to context (one-way only)
   useEffect(() => {
-    const filters: Record<string, any> = {};
+    const filters: Record<string, string | string[] | number | boolean> = {};
     
     currentRefinements.forEach((refinement) => {
       const { attribute, refinements: values } = refinement;
       if (values.length > 0) {
         if (values.length === 1) {
-          filters[attribute] = values[0].value;
+          filters[attribute] = String(values[0].value);
         } else {
-          filters[attribute] = values.map(v => v.value);
+          filters[attribute] = values.map(v => String(v.value));
         }
       }
     });
 
-    // Only update if filters have actually changed
-    const filtersChanged = JSON.stringify(filters) !== JSON.stringify(searchState.filters);
-    if (filtersChanged) {
+    const filtersJson = JSON.stringify(filters);
+    if (filtersJson !== prevFiltersRef.current) {
+      prevFiltersRef.current = filtersJson;
       updateFilters(filters);
     }
-  }, [currentRefinements, searchState.filters, updateFilters]);
+  }, [currentRefinements, updateFilters]);
 
   return {
     resultCount: results?.nbHits || 0,

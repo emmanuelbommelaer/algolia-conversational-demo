@@ -1,0 +1,127 @@
+name: Agent Configuration Link
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.env'
+      - '.env.example'
+      - 'src/services/agentService.ts'
+      - 'src/services/guidedSearchAgent.ts'
+  pull_request:
+    paths:
+      - '.env'
+      - '.env.example'
+      - 'src/services/agentService.ts'
+      - 'src/services/guidedSearchAgent.ts'
+
+jobs:
+  generate-agent-link:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Read agent configuration
+        id: agent-config
+        run: |
+          # Read the agent ID from .env or .env.example
+          if [ -f .env ]; then
+            AGENT_ID=$(grep "VITE_AGENT_ID=" .env | cut -d '=' -f2 | tr -d '"' | tr -d "'")
+            APP_ID=$(grep "VITE_ALGOLIA_APP_ID=" .env | cut -d '=' -f2 | tr -d '"' | tr -d "'")
+          elif [ -f .env.example ]; then
+            AGENT_ID=$(grep "VITE_AGENT_ID=" .env.example | cut -d '=' -f2 | tr -d '"' | tr -d "'")
+            APP_ID=$(grep "VITE_ALGOLIA_APP_ID=" .env.example | cut -d '=' -f2 | tr -d '"' | tr -d "'")
+          fi
+          
+          echo "agent_id=$AGENT_ID" >> $GITHUB_OUTPUT
+          echo "app_id=$APP_ID" >> $GITHUB_OUTPUT
+          
+          # Generate Algolia dashboard link
+          DASHBOARD_URL="https://dashboard.algolia.com/apps/${APP_ID}/agent-studio/agents/${AGENT_ID}"
+          echo "dashboard_url=$DASHBOARD_URL" >> $GITHUB_OUTPUT
+          
+          # Generate direct edit link (for Algolia team members)
+          EDIT_URL="https://dashboard.algolia.com/apps/${APP_ID}/agent-studio/agents/${AGENT_ID}/edit"
+          echo "edit_url=$EDIT_URL" >> $GITHUB_OUTPUT
+      
+      - name: Create comment with links
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const agentId = '${{ steps.agent-config.outputs.agent_id }}';
+            const appId = '${{ steps.agent-config.outputs.app_id }}';
+            const dashboardUrl = '${{ steps.agent-config.outputs.dashboard_url }}';
+            const editUrl = '${{ steps.agent-config.outputs.edit_url }}';
+            
+            const comment = `## 🤖 Algolia Agent Configuration
+            
+            **Agent ID:** \`${agentId}\`
+            **App ID:** \`${appId}\`
+            
+            ### Quick Links:
+            - [📊 View Agent in Dashboard](${dashboardUrl})
+            - [✏️ Edit Agent Configuration](${editUrl})
+            
+            ### Agent API Endpoint:
+            \`\`\`
+            POST https://conversational-ai-dev.algolia.com/1/agents/${agentId}/completions
+            \`\`\`
+            
+            ### Testing the Agent:
+            1. Ensure the agent is properly configured in the Algolia dashboard
+            2. Check that the agent has access to the \`algoliaBNB\` index
+            3. Verify the agent's prompt includes guidance for faceted search
+            `;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+      
+      - name: Display agent links in workflow summary
+        run: |
+          echo "## 🤖 Algolia Agent Configuration" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Agent ID:** \`${{ steps.agent-config.outputs.agent_id }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "**App ID:** \`${{ steps.agent-config.outputs.app_id }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Quick Links:" >> $GITHUB_STEP_SUMMARY
+          echo "- [📊 View Agent in Dashboard](${{ steps.agent-config.outputs.dashboard_url }})" >> $GITHUB_STEP_SUMMARY
+          echo "- [✏️ Edit Agent Configuration](${{ steps.agent-config.outputs.edit_url }})" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Local Development:" >> $GITHUB_STEP_SUMMARY
+          echo "1. Copy \`.env.example\` to \`.env\`" >> $GITHUB_STEP_SUMMARY
+          echo "2. Ensure the agent ID matches: \`${{ steps.agent-config.outputs.agent_id }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "3. Run \`npm run dev\` to start the application" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Agent API Testing:" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
+          echo "curl -X POST \\" >> $GITHUB_STEP_SUMMARY
+          echo "  https://conversational-ai-dev.algolia.com/1/agents/${{ steps.agent-config.outputs.agent_id }}/completions \\" >> $GITHUB_STEP_SUMMARY
+          echo "  -H 'X-Algolia-Application-Id: ${{ steps.agent-config.outputs.app_id }}' \\" >> $GITHUB_STEP_SUMMARY
+          echo "  -H 'X-Algolia-API-Key: YOUR_API_KEY' \\" >> $GITHUB_STEP_SUMMARY
+          echo "  -H 'Content-Type: application/json' \\" >> $GITHUB_STEP_SUMMARY
+          echo "  -d '{\"messages\": [{\"role\": \"user\", \"content\": \"Help me find an Airbnb\"}]}'" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+      
+      - name: Output links to console
+        run: |
+          echo "======================================"
+          echo "🤖 ALGOLIA AGENT CONFIGURATION LINKS"
+          echo "======================================"
+          echo ""
+          echo "Agent ID: ${{ steps.agent-config.outputs.agent_id }}"
+          echo "App ID: ${{ steps.agent-config.outputs.app_id }}"
+          echo ""
+          echo "📊 View Agent Dashboard:"
+          echo "${{ steps.agent-config.outputs.dashboard_url }}"
+          echo ""
+          echo "✏️ Edit Agent Configuration:"
+          echo "${{ steps.agent-config.outputs.edit_url }}"
+          echo ""
+          echo "======================================"
