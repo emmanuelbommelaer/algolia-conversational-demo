@@ -29,4 +29,4 @@ dist-ssr
 .env.production
 
 # Scripts directory
-scripts/
+# scripts/ # Needed for GitHub Actions
