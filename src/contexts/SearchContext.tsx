@@ -1,10 +1,12 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
-import { SearchState } from '../types';
+import type { SearchState } from '../types';
 
 interface SearchContextType {
   searchState: SearchState;
   updateQuery: (query: string) => void;
   updateFilters: (filters: Record<string, any>) => void;
+  addFilter: (field: string, value: any) => void;
+  removeFilter: (field: string) => void;
   updatePage: (page: number) => void;
   resetSearch: () => void;
 }
@@ -28,6 +30,22 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     setSearchState(prev => ({ ...prev, filters, page: 0 }));
   }, []);
 
+  const addFilter = useCallback((field: string, value: any) => {
+    setSearchState(prev => ({
+      ...prev,
+      filters: { ...prev.filters, [field]: value },
+      page: 0,
+    }));
+  }, []);
+
+  const removeFilter = useCallback((field: string) => {
+    setSearchState(prev => {
+      const newFilters = { ...prev.filters };
+      delete newFilters[field];
+      return { ...prev, filters: newFilters, page: 0 };
+    });
+  }, []);
+
   const updatePage = useCallback((page: number) => {
     setSearchState(prev => ({ ...prev, page }));
   }, []);
@@ -42,6 +60,8 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         searchState,
         updateQuery,
         updateFilters,
+        addFilter,
+        removeFilter,
         updatePage,
         resetSearch,
       }}

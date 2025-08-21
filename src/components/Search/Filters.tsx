@@ -35,13 +35,13 @@ const PriceRange: React.FC = () => {
   }, [start]);
 
   const handleChange = (type: 'min' | 'max', value: string) => {
-    const newValues = { ...values };
+    const newValues = { ...values } as any;
     newValues[type] = value === '' ? undefined : Number(value);
     setValues(newValues);
     refine(newValues);
   };
 
-  if (!range.min && !range.max) return null;
+  if (!range || (!range.min && !range.max)) return null;
 
   return (
     <div className="mb-6">
@@ -50,7 +50,7 @@ const PriceRange: React.FC = () => {
         <input
           type="number"
           placeholder={`${range.min || 0}`}
-          value={values.min || ''}
+          value={(values as any)?.min || ''}
           onChange={(e) => handleChange('min', e.target.value)}
           className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:border-blue-500"
         />
@@ -58,7 +58,7 @@ const PriceRange: React.FC = () => {
         <input
           type="number"
           placeholder={`${range.max || '∞'}`}
-          value={values.max || ''}
+          value={(values as any)?.max || ''}
           onChange={(e) => handleChange('max', e.target.value)}
           className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:border-blue-500"
         />

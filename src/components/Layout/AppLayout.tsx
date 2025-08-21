@@ -22,7 +22,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
         </div>
       </header>
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="flex gap-6 h-[calc(100vh-8rem)]">
+        <div className="flex flex-col lg:flex-row gap-6 h-[calc(100vh-8rem)]">
           {children}
         </div>
       </main>

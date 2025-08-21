@@ -2,6 +2,11 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Development rules
+- Test driven development: for each feature, write a test first, then build it.
+- Keep it simple: make the least possible edits to respect the specifications.
+- Commit often: every time you've built a feature or 
+
 ## Essential Commands
 
 ```bash
@@ -32,7 +37,7 @@ This is a React application demonstrating Algolia's conversational search capabi
    - Chat components in `src/components/Agent/`: AgentPanel, ChatThread, MessageBubble
    - Currently using simulated responses - real API integration pending
 
-3. **State Synchronization**: 
+3. **State Synchronization**:
    - `src/contexts/SearchContext.tsx`: Shared state between search and agent panels
    - Agent suggestions can update search filters
    - Search state provides context to agent
@@ -48,7 +53,7 @@ This is a React application demonstrating Algolia's conversational search capabi
 
 Required environment variables (see `.env.example`):
 - `VITE_ALGOLIA_APP_ID`: Algolia application ID
-- `VITE_ALGOLIA_API_KEY`: Algolia search API key  
+- `VITE_ALGOLIA_API_KEY`: Algolia search API key
 - `VITE_ALGOLIA_INDEX_NAME`: Index to search
 - `VITE_AGENT_ID`: Agent Studio agent ID
 - `VITE_AGENT_API_KEY`: Agent Studio API key

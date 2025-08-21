@@ -1,14 +1,14 @@
 import axios from 'axios';
-import { AgentMessage, FilterSuggestion } from '../types';
+import type { FilterSuggestion } from '../types';
 
 const AGENT_API_URL = import.meta.env.VITE_AGENT_API_URL || 'https://conversational-ai-dev.algolia.com';
 const AGENT_ID = import.meta.env.VITE_AGENT_ID || '';
+const APP_ID = import.meta.env.VITE_ALGOLIA_APP_ID || '';
 const API_KEY = import.meta.env.VITE_AGENT_API_KEY || '';
 
 interface AgentResponse {
   message: string;
   suggestions?: FilterSuggestion[];
-  sessionId?: string;
 }
 
 interface ConversationContext {
@@ -18,11 +18,12 @@ interface ConversationContext {
 }
 
 export class AgentService {
-  private sessionId: string | null = null;
+  private conversationHistory: Array<{role: 'user' | 'assistant', content: string}> = [];
   private axiosInstance = axios.create({
     baseURL: AGENT_API_URL,
     headers: {
-      'X-API-Key': API_KEY,
+      'X-Algolia-Application-Id': APP_ID,
+      'X-Algolia-API-Key': API_KEY,
       'Content-Type': 'application/json',
     },
   });
@@ -32,32 +33,37 @@ export class AgentService {
     context?: ConversationContext
   ): Promise<AgentResponse> {
     try {
+      // Add user message to conversation history
+      this.conversationHistory.push({ role: 'user', content: message });
+
       const payload = {
-        message,
-        sessionId: this.sessionId,
-        context: {
-          ...context,
-          timestamp: new Date().toISOString(),
-        },
+        messages: this.conversationHistory,
+        configuration: context ? {
+          searchParameters: {
+            query: context.currentQuery || '',
+            filters: context.appliedFilters || {},
+          },
+          resultCount: context.resultCount || 0,
+        } : undefined,
       };
 
       const response = await this.axiosInstance.post(
-        `/agents/${AGENT_ID}/chat`,
+        `/1/agents/${AGENT_ID}/completions?compatibilityMode=ai-sdk-4&stream=false`,
         payload
       );
 
-      if (response.data.sessionId) {
-        this.sessionId = response.data.sessionId;
-      }
+      const assistantMessage = response.data.content || response.data.message || 'No response received';
+      
+      // Add assistant response to conversation history
+      this.conversationHistory.push({ role: 'assistant', content: assistantMessage });
 
       return {
-        message: response.data.message || response.data.response,
+        message: assistantMessage,
         suggestions: this.parseSuggestions(response.data),
-        sessionId: response.data.sessionId,
       };
     } catch (error) {
       console.error('Agent API error:', error);
-      throw new Error('Failed to communicate with the agent');
+      throw new Error(`Failed to communicate with the agent: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }
 
@@ -87,7 +93,7 @@ export class AgentService {
   }
 
   resetSession() {
-    this.sessionId = null;
+    this.conversationHistory = [];
   }
 }
 

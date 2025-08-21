@@ -1,5 +1,5 @@
 import React from 'react';
-import { AgentMessage, FilterSuggestion } from '../../types';
+import type { AgentMessage, FilterSuggestion } from '../../types';
 
 interface MessageBubbleProps {
   message: AgentMessage;

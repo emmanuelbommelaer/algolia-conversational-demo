@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { MessageBubble } from './MessageBubble';
-import { AgentMessage, FilterSuggestion } from '../../types';
+import type { AgentMessage, FilterSuggestion } from '../../types';
 
 interface ChatThreadProps {
   messages: AgentMessage[];

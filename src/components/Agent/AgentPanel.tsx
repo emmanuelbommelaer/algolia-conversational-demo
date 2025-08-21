@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChatThread } from './ChatThread';
 import { MessageInput } from './MessageInput';
-import { AgentMessage } from '../../types';
+import type { AgentMessage } from '../../types';
 import { useSearch } from '../../contexts/SearchContext';
+import { agentService } from '../../services/agentService';
 
 export const AgentPanel: React.FC = () => {
   const [messages, setMessages] = useState<AgentMessage[]>([
@@ -14,7 +15,15 @@ export const AgentPanel: React.FC = () => {
     },
   ]);
   const [isLoading, setIsLoading] = useState(false);
-  const { searchState, updateQuery, updateFilters } = useSearch();
+  const [resultCount, setResultCount] = useState(0);
+  const { searchState, updateQuery, addFilter } = useSearch();
+
+  // Update result count when available (this will be set by the search panel)
+  useEffect(() => {
+    // This is a placeholder - in a real implementation, you'd get this from the search state
+    // For now, we'll pass 0 and let the agent work without result count context
+    setResultCount(0);
+  }, [searchState]);
 
   const handleSendMessage = async (content: string) => {
     const userMessage: AgentMessage = {
@@ -28,7 +37,11 @@ export const AgentPanel: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const response = await simulateAgentResponse(content, searchState);
+      const response = await agentService.sendMessage(content, {
+        currentQuery: searchState.query,
+        appliedFilters: searchState.filters,
+        resultCount,
+      });
       
       const assistantMessage: AgentMessage = {
         id: (Date.now() + 1).toString(),
@@ -40,10 +53,11 @@ export const AgentPanel: React.FC = () => {
 
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
+      console.error('Agent service error:', error);
       const errorMessage: AgentMessage = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content: 'Sorry, I encountered an error. Please try again.',
+        content: `Sorry, I encountered an error: ${error instanceof Error ? error.message : 'Unknown error'}. Please check your agent configuration.`,
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, errorMessage]);
@@ -55,13 +69,13 @@ export const AgentPanel: React.FC = () => {
   const handleApplySuggestion = (suggestion: any) => {
     if (suggestion.type === 'query') {
       updateQuery(suggestion.value);
-    } else if (suggestion.type === 'filter') {
-      updateFilters({ [suggestion.field]: suggestion.value });
+    } else if (suggestion.type === 'filter' && suggestion.field) {
+      addFilter(suggestion.field, suggestion.value);
     }
   };
 
   return (
-    <div className="w-96 bg-white rounded-lg shadow-sm border border-gray-200 flex flex-col">
+    <div className="w-full lg:w-96 bg-white rounded-lg shadow-sm border border-gray-200 flex flex-col h-96 lg:h-auto">
       <div className="border-b border-gray-200 p-4">
         <h2 className="text-lg font-semibold text-gray-900">AI Assistant</h2>
         <p className="text-sm text-gray-600">Ask me about products</p>
@@ -78,47 +92,3 @@ export const AgentPanel: React.FC = () => {
   );
 };
 
-async function simulateAgentResponse(message: string, searchState: any) {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  
-  const lowerMessage = message.toLowerCase();
-  const suggestions = [];
-  
-  if (lowerMessage.includes('laptop')) {
-    suggestions.push({
-      type: 'filter',
-      label: 'Category: Laptops',
-      value: 'Laptops',
-      field: 'category',
-    });
-  }
-  
-  if (lowerMessage.includes('under') && lowerMessage.match(/\$?\d+/)) {
-    const priceMatch = lowerMessage.match(/\$?(\d+)/);
-    if (priceMatch) {
-      suggestions.push({
-        type: 'filter',
-        label: `Max Price: $${priceMatch[1]}`,
-        value: parseInt(priceMatch[1]),
-        field: 'price_max',
-      });
-    }
-  }
-  
-  if (lowerMessage.includes('gaming')) {
-    suggestions.push({
-      type: 'query',
-      label: 'Search: gaming',
-      value: 'gaming',
-    });
-  }
-  
-  return {
-    message: `I understand you're looking for "${message}". ${
-      suggestions.length > 0
-        ? "I've found some filters that might help. Click on them to apply:"
-        : 'Try being more specific about what you need.'
-    }`,
-    suggestions,
-  };
-}
