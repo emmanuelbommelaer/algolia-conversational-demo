@@ -98,7 +98,7 @@ export class GuidedSearchAgent {
           label: option.label,
           value: option.value,
           count: option.count || 0,
-          category: this.mapCategoryToInternal(category),
+          category: this.mapCategoryToInternal(category) as 'location' | 'property' | 'price' | 'amenities',
           priority: option.count > 100 ? 'high' : option.count > 50 ? 'medium' : 'low',
         });
       });
@@ -122,7 +122,7 @@ export class GuidedSearchAgent {
     }
   }
 
-  private fallbackParseOptions(agentMessage: string, facetData: any): FacetOption[] {
+  private fallbackParseOptions(_agentMessage: string, facetData: any): FacetOption[] {
     // Fallback to single option from most relevant category
     const options: FacetOption[] = [];
 
