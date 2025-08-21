@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRefinementList, useRange, useInstantSearch } from 'react-instantsearch';
 import { useSearch } from '../contexts/SearchContext';
 import { guidedSearchAgent } from '../services/guidedSearchAgent';
@@ -20,9 +20,11 @@ export const useSearchFlow = () => {
     suggestedOptions: [],
     agentMessage: 'Loading...',
     completedStages: [],
+    error: undefined,
   });
   
   const [isLoadingGuidance, setIsLoadingGuidance] = useState(false);
+  const lastCallRef = useRef<string>('');
 
   // Update result count when results change
   useEffect(() => {
@@ -33,8 +35,50 @@ export const useSearchFlow = () => {
   // Get guidance from agent whenever filters or results change
   useEffect(() => {
     const fetchGuidance = async () => {
-      if (isLoadingGuidance) return;
+      // Create a unique key for this call to prevent duplicates
+      const callKey = JSON.stringify({
+        filters: searchState.filters,
+        nbHits: results?.nbHits,
+        hasFacets: cityRefinements.items.length > 0 || propertyTypeRefinements.items.length > 0 || roomTypeRefinements.items.length > 0
+      });
       
+      // Skip if this exact same call was just made
+      if (lastCallRef.current === callKey) {
+        return;
+      }
+      
+      if (isLoadingGuidance) {
+        return;
+      }
+      
+      // Update the last call reference
+      lastCallRef.current = callKey;
+      
+      // Wait for facets to load before making guidance requests
+      const resultCount = results?.nbHits || 0;
+      const hasFacets = cityRefinements.items.length > 0 || propertyTypeRefinements.items.length > 0 || roomTypeRefinements.items.length > 0;
+      
+      console.log('🔍 Agent guidance request:', {
+        resultCount,
+        hasFacets,
+        cityFacets: cityRefinements.items.length,
+        propertyFacets: propertyTypeRefinements.items.length,
+        roomFacets: roomTypeRefinements.items.length,
+        filters: searchState.filters
+      });
+      
+      // Skip if Algolia hasn't loaded initial data yet
+      // We need either results > 0 OR facets loaded to proceed
+      if (resultCount === 0 && !hasFacets) {
+        console.log('⏸️ Skipping agent call - waiting for Algolia to load initial data');
+        return;
+      }
+      
+      // Skip if we have results but no facets loaded yet (still loading)
+      if (resultCount > 0 && !hasFacets) {
+        console.log('⏸️ Skipping agent call - waiting for facets to load');
+        return;
+      }
       setIsLoadingGuidance(true);
       
       try {
@@ -45,8 +89,6 @@ export const useSearchFlow = () => {
           roomTypes: roomTypeRefinements.items,
           priceRange: priceRange.range,
         };
-
-        const resultCount = results?.nbHits || 0;
         
         // Get guidance from the agent
         const guidance = await guidedSearchAgent.getGuidance(
@@ -61,13 +103,18 @@ export const useSearchFlow = () => {
           suggestedOptions: guidance.facetOptions,
           stage: (guidance.nextStage || 'welcome') as SearchFlowState['stage'],
           resultCount,
+          error: undefined, // Clear any previous errors
         }));
       } catch (error) {
         console.error('Failed to get agent guidance:', error);
-        // Use fallback message on error
+        // Show the agent error in the UI instead of fallback
+        const errorMessage = error instanceof Error ? error.message : 'Agent service unavailable';
         setFlowState(prev => ({
           ...prev,
-          agentMessage: "I'm here to help you find the perfect Airbnb. Please select from the options below to get started.",
+          stage: 'error',
+          agentMessage: `⚠️ ${errorMessage}`,
+          suggestedOptions: [], // Clear any suggestions
+          error: errorMessage,
         }));
       } finally {
         setIsLoadingGuidance(false);
