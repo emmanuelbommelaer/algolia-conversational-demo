@@ -6,7 +6,7 @@ on:
       sync_to_api:
         description: 'Sync configuration to Algolia API'
         required: false
-        default: 'false'
+        default: 'true'
         type: choice
         options:
           - 'true'
@@ -43,8 +43,24 @@ jobs:
       - name: Install dependencies
         run: npm ci
       
+      - name: Install algobot CLI
+        run: npm install -g @algolia/algobot-cli
+      
       - name: Validate agent configuration
-        run: npm run agent:validate
+        run: |
+          # Basic JSON validation
+          if ! jq empty agent-config/agent.json 2>/dev/null; then
+            echo "❌ Invalid JSON in agent-config/agent.json"
+            exit 1
+          fi
+          
+          # Check required fields
+          if ! jq -e '.name and .instructions and .model' agent-config/agent.json >/dev/null; then
+            echo "❌ Missing required fields (name, instructions, model) in agent.json"
+            exit 1
+          fi
+          
+          echo "✅ Agent configuration validated successfully"
       
       - name: Read agent configuration
         id: agent-config
@@ -61,11 +77,10 @@ jobs:
           echo "agent_id=$AGENT_ID" >> $GITHUB_OUTPUT
           echo "app_id=$APP_ID" >> $GITHUB_OUTPUT
           
-          # Generate Algolia dashboard link
+          # Generate Algolia dashboard links
           DASHBOARD_URL="https://dashboard.algolia.com/apps/${APP_ID}/agent-studio/agents/${AGENT_ID}"
           echo "dashboard_url=$DASHBOARD_URL" >> $GITHUB_OUTPUT
           
-          # Generate direct edit link (for Algolia team members)
           EDIT_URL="https://dashboard.algolia.com/apps/${APP_ID}/agent-studio/agents/${AGENT_ID}/edit"
           echo "edit_url=$EDIT_URL" >> $GITHUB_OUTPUT
       
@@ -109,26 +124,32 @@ jobs:
       - name: Compare with remote configuration
         if: github.event_name != 'pull_request'
         env:
-          VITE_ALGOLIA_APP_ID: ${{ secrets.VITE_ALGOLIA_APP_ID || '8W4UB9R8JC' }}
-          VITE_ALGOLIA_API_KEY: ${{ secrets.VITE_ALGOLIA_API_KEY }}
-          VITE_AGENT_ID: ${{ steps.agent-config.outputs.agent_id }}
+          ALGOLIA_APP_ID: ${{ secrets.VITE_ALGOLIA_APP_ID || '8W4UB9R8JC' }}
+          ALGOLIA_API_KEY: ${{ secrets.VITE_ALGOLIA_API_KEY }}
         run: |
-          if [ -n "$VITE_ALGOLIA_API_KEY" ]; then
-            npm run agent:compare
+          if [ -n "$ALGOLIA_API_KEY" ]; then
+            echo "📊 Comparing local vs remote configuration..."
+            algobot agents get ${{ steps.agent-config.outputs.agent_id }} > remote-agent.json
+            echo "Local configuration:"
+            jq '{name: .name, model: .model}' agent-config/agent.json
+            echo "Remote configuration:"
+            jq '{name: .name, model: .model}' remote-agent.json
           else
             echo "⚠️ Skipping comparison - API key not available in secrets"
           fi
       
-      - name: Sync to Algolia API (if requested)
-        if: github.event.inputs.sync_to_api == 'true'
+      - name: Sync to Algolia API
+        if: |
+          (github.event_name == 'push' && github.ref == 'refs/heads/master') || 
+          (github.event_name == 'workflow_dispatch' && github.event.inputs.sync_to_api == 'true')
         env:
-          VITE_ALGOLIA_APP_ID: ${{ secrets.VITE_ALGOLIA_APP_ID || '8W4UB9R8JC' }}
-          VITE_ALGOLIA_API_KEY: ${{ secrets.VITE_ALGOLIA_API_KEY }}
-          VITE_AGENT_ID: ${{ steps.agent-config.outputs.agent_id }}
+          ALGOLIA_APP_ID: ${{ secrets.VITE_ALGOLIA_APP_ID || '8W4UB9R8JC' }}
+          ALGOLIA_API_KEY: ${{ secrets.VITE_ALGOLIA_API_KEY }}
         run: |
-          if [ -n "$VITE_ALGOLIA_API_KEY" ]; then
+          if [ -n "$ALGOLIA_API_KEY" ]; then
             echo "🚀 Syncing agent configuration to Algolia API..."
-            npm run agent:push
+            algobot agents patch ${{ steps.agent-config.outputs.agent_id }} --json agent-config/agent.json
+            echo "✅ Agent configuration updated successfully"
           else
             echo "❌ Cannot sync - VITE_ALGOLIA_API_KEY not found in secrets"
             exit 1
@@ -150,29 +171,14 @@ jobs:
           echo "2. Ensure the agent ID matches: \`${{ steps.agent-config.outputs.agent_id }}\`" >> $GITHUB_STEP_SUMMARY
           echo "3. Run \`npm run dev\` to start the application" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### Agent API Testing:" >> $GITHUB_STEP_SUMMARY
+          echo "### Configuration Format:" >> $GITHUB_STEP_SUMMARY
+          echo "Agent configuration is now stored as JSON in \`agent-config/agent.json\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Manual Sync:" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
-          echo "curl -X POST \\" >> $GITHUB_STEP_SUMMARY
-          echo "  https://conversational-ai-dev.algolia.com/1/agents/${{ steps.agent-config.outputs.agent_id }}/completions \\" >> $GITHUB_STEP_SUMMARY
-          echo "  -H 'X-Algolia-Application-Id: ${{ steps.agent-config.outputs.app_id }}' \\" >> $GITHUB_STEP_SUMMARY
-          echo "  -H 'X-Algolia-API-Key: YOUR_API_KEY' \\" >> $GITHUB_STEP_SUMMARY
-          echo "  -H 'Content-Type: application/json' \\" >> $GITHUB_STEP_SUMMARY
-          echo "  -d '{\"messages\": [{\"role\": \"user\", \"content\": \"Help me find an Airbnb\"}]}'" >> $GITHUB_STEP_SUMMARY
+          echo "# Install algobot CLI" >> $GITHUB_STEP_SUMMARY
+          echo "npm install -g @algolia/algobot-cli" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "# Sync configuration" >> $GITHUB_STEP_SUMMARY
+          echo "algobot agents patch ${{ steps.agent-config.outputs.agent_id }} --json agent-config/agent.json" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
-      
-      - name: Output links to console
-        run: |
-          echo "======================================"
-          echo "🤖 ALGOLIA AGENT CONFIGURATION LINKS"
-          echo "======================================"
-          echo ""
-          echo "Agent ID: ${{ steps.agent-config.outputs.agent_id }}"
-          echo "App ID: ${{ steps.agent-config.outputs.app_id }}"
-          echo ""
-          echo "📊 View Agent Dashboard:"
-          echo "${{ steps.agent-config.outputs.dashboard_url }}"
-          echo ""
-          echo "✏️ Edit Agent Configuration:"
-          echo "${{ steps.agent-config.outputs.edit_url }}"
-          echo ""
-          echo "======================================"

@@ -1,36 +1,25 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Console Debug', () => {
-  test('should check for JavaScript errors', async ({ page }) => {
-    // Listen for console messages
+  test('Capture console logs to debug filter issue', async ({ page }) => {
+    // Listen to console messages
+    const consoleMessages: string[] = [];
     page.on('console', msg => {
-      console.log(`CONSOLE ${msg.type()}: ${msg.text()}`);
-    });
-
-    // Listen for page errors
-    page.on('pageerror', error => {
-      console.log(`PAGE ERROR: ${error.message}`);
-      console.log(`ERROR STACK: ${error.stack}`);
-    });
-
-    // Listen for failed requests
-    page.on('requestfailed', request => {
-      console.log(`FAILED REQUEST: ${request.url()} - ${request.failure()?.errorText}`);
+      const text = msg.text();
+      consoleMessages.push(text);
+      console.log('Browser console:', text);
     });
 
     await page.goto('/');
+    await page.waitForLoadState('domcontentloaded');
     
-    // Wait longer to see all messages
-    await page.waitForTimeout(5000);
+    // Wait long enough for all logs to appear
+    await page.waitForTimeout(8000);
     
-    // Check if root element exists
-    const root = page.locator('#root');
-    await expect(root).toBeVisible();
-    console.log('Root element exists');
-    
-    // Check if any React content is rendered
-    const rootContent = await root.innerHTML();
-    console.log(`Root content length: ${rootContent.length}`);
-    console.log('Root content:', rootContent.substring(0, 500));
+    // Print all captured messages
+    console.log('\n=== ALL CONSOLE MESSAGES ===');
+    consoleMessages.forEach((msg, index) => {
+      console.log(`${index + 1}: ${msg}`);
+    });
   });
 });

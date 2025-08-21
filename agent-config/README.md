@@ -1,148 +1,91 @@
-# Agent Configuration as Code
+# Agent Configuration
 
-This directory contains the Algolia Agent configuration that can be edited locally and synced with the Algolia API.
+This directory contains the configuration for the Algolia conversational agent used in this demo application.
 
-## 📝 Editing the Agent
+## Configuration File
 
-### Local Editing
+**`agent.json`** - Contains the agent configuration in JSON format that matches the Algolia Agent API structure.
 
-1. **Edit the configuration file:**
+### Structure
+
+```json
+{
+  "name": "Agent display name",
+  "description": "Agent description",
+  "instructions": "System prompt for the agent",
+  "model": "gpt-4.1",
+  "config": {
+    "temperature": 0.7,
+    "max_tokens": 500
+  }
+}
+```
+
+## Managing the Agent
+
+### Local Development
+
+1. **Edit Configuration**: Modify `agent.json` directly or use:
    ```bash
    npm run agent:edit
    ```
-   Or manually edit `agent-config/agent.yaml`
 
-2. **Key sections to modify:**
-   - `systemPrompt`: The main agent instructions
-   - `facets`: Configure which facets to use
-   - `responseTemplates`: Default response messages
-   - `model`: AI model settings
-
-### Available Commands
-
-```bash
-# Validate the local configuration
-npm run agent:validate
-
-# Compare local vs remote configuration
-npm run agent:compare
-
-# Push local changes to Algolia API
-npm run agent:push
-
-# Pull remote configuration to local file
-npm run agent:pull
-
-# Open configuration in VS Code
-npm run agent:edit
-```
-
-## 🔄 Sync Workflow
-
-### Manual Sync
-
-1. Edit `agent.yaml` with your changes
-2. Validate: `npm run agent:validate`
-3. Compare: `npm run agent:compare`
-4. Push: `npm run agent:push`
-
-### GitHub Actions Sync
-
-The repository includes a GitHub Action that can:
-- Automatically validate configuration on push
-- Compare local and remote configs
-- Sync to API when manually triggered
-
-To sync via GitHub Actions:
-1. Go to Actions → "Agent Configuration Management"
-2. Click "Run workflow"
-3. Set "Sync configuration to Algolia API" to "true"
-4. Run the workflow
-
-## 🎯 Configuration Structure
-
-### System Prompt
-The most important part - defines how the agent behaves:
-
-```yaml
-systemPrompt: |
-  You are an intelligent Airbnb search assistant...
-  [Your instructions here]
-```
-
-### Facets
-Configure which search facets the agent can suggest:
-
-```yaml
-facets:
-  - attribute: city
-    label: "Location"
-    type: "refinementList"
-    limit: 10
-```
-
-### Model Settings
-Configure the AI model:
-
-```yaml
-model:
-  provider: "openai"
-  name: "gpt-4.1"
-  temperature: 0.7
-  maxTokens: 500
-```
-
-## 🧪 Testing Changes
-
-After editing the agent:
-
-1. **Test locally** by running the app:
+2. **Validate Configuration**:
    ```bash
-   npm run dev
+   npm run agent:validate
    ```
 
-2. **Monitor agent responses** in the browser console
+3. **Compare with Remote**:
+   ```bash
+   npm run agent:compare
+   ```
 
-3. **Check fallback behavior** - the app uses fallback when API fails
+4. **Push Changes**:
+   ```bash
+   npm run agent:push
+   ```
 
-## 🔐 Security
+### Automatic Deployment
 
-- Never commit API keys to the repository
-- Use environment variables for sensitive data
-- The GitHub Action uses repository secrets for API keys
+The agent configuration is automatically deployed when:
+- You push changes to the `agent-config/` directory on the `master` branch
+- The GitHub Action workflow validates and syncs the configuration
 
-## 📊 Monitoring
+### Manual Deployment
 
-View your agent in the Algolia dashboard:
-- [Agent Dashboard](https://dashboard.algolia.com/apps/8W4UB9R8JC/agent-studio/agents/26cc363c-f96a-4170-bf36-46b734a6936a)
+If you have the algobot CLI installed globally:
 
-## 🤝 Best Practices
+```bash
+# Install algobot CLI
+npm install -g @algolia/algobot-cli
 
-1. **Version Control**: Commit agent changes with descriptive messages
-2. **Testing**: Always test locally before pushing to API
-3. **Documentation**: Update comments in the YAML when changing behavior
-4. **Incremental Changes**: Make small, focused changes
-5. **Validation**: Always validate before pushing
+# Set environment variables
+export ALGOLIA_APP_ID="your_app_id"
+export ALGOLIA_API_KEY="your_api_key"
 
-## 🐛 Troubleshooting
+# Deploy configuration
+algobot agents patch 26cc363c-f96a-4170-bf36-46b734a6936a --json agent-config/agent.json
+```
 
-### Configuration won't validate
-- Check YAML syntax (proper indentation)
-- Ensure required fields are present
-- Verify agent ID format
+## Environment Variables
 
-### Push fails with 422 error
-- The agent API may have specific requirements
-- Check the Algolia dashboard for error details
-- Ensure your API key has write permissions
+Make sure these are set in your `.env` file:
+- `VITE_AGENT_ID` - The agent ID (currently: `26cc363c-f96a-4170-bf36-46b734a6936a`)
+- `VITE_ALGOLIA_APP_ID` - Your Algolia application ID
+- `VITE_ALGOLIA_API_KEY` - Your Algolia API key
 
-### Changes don't appear in app
-- Clear browser cache
-- Check browser console for errors
-- Verify the agent ID matches in `.env`
+## Workflow
 
-## 📚 Resources
+1. **Edit** `agent.json` with your changes
+2. **Validate** locally with `npm run agent:validate`
+3. **Commit** and push to trigger automatic deployment
+4. **Monitor** the GitHub Action for deployment status
 
-- [Algolia Agent Studio Documentation](https://www.algolia.com/doc/guides/algolia-ai/agent-studio/)
-- [Agent API Reference](https://www.algolia.com/doc/api-reference/api-methods/agent/)
-- [YAML Syntax Guide](https://yaml.org/spec/1.2/spec.html)
+## Dashboard Links
+
+- [View Agent in Dashboard](https://dashboard.algolia.com/apps/8W4UB9R8JC/agent-studio/agents/26cc363c-f96a-4170-bf36-46b734a6936a)
+- [Edit Agent Configuration](https://dashboard.algolia.com/apps/8W4UB9R8JC/agent-studio/agents/26cc363c-f96a-4170-bf36-46b734a6936a/edit)
+
+## Migration from YAML
+
+This configuration was previously stored as `agent.yaml` but has been migrated to JSON for better API compatibility and simpler tooling.
