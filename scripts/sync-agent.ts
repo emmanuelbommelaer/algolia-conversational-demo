@@ -48,7 +48,12 @@ class AgentSyncManager {
     this.apiUrl = process.env.VITE_AGENT_API_URL || 'https://conversational-ai-dev.algolia.com';
     this.appId = process.env.VITE_ALGOLIA_APP_ID || '';
     this.apiKey = process.env.VITE_ALGOLIA_API_KEY || '';
+  }
 
+  /**
+   * Check if API credentials are available
+   */
+  private requireApiCredentials(): void {
     if (!this.appId || !this.apiKey) {
       console.error('❌ Missing required environment variables: VITE_ALGOLIA_APP_ID or VITE_ALGOLIA_API_KEY');
       process.exit(1);
@@ -95,6 +100,7 @@ class AgentSyncManager {
    * Fetch current agent configuration from API
    */
   async fetchCurrentConfig(agentId: string): Promise<any> {
+    this.requireApiCredentials();
     try {
       const response = await axios.get(
         `${this.apiUrl}/1/agents/${agentId}`,
@@ -121,6 +127,7 @@ class AgentSyncManager {
    * Create or update agent configuration via API
    */
   async syncToAPI(config: AgentConfig): Promise<void> {
+    this.requireApiCredentials();
     const agentId = config.agent.id;
     
     try {
@@ -193,6 +200,7 @@ class AgentSyncManager {
    * Pull agent configuration from API and save to file
    */
   async pullFromAPI(agentId: string): Promise<void> {
+    this.requireApiCredentials();
     try {
       const apiConfig = await this.fetchCurrentConfig(agentId);
       
@@ -240,6 +248,7 @@ class AgentSyncManager {
    * Compare local and remote configurations
    */
   async compareConfigs(config: AgentConfig): Promise<void> {
+    this.requireApiCredentials();
     try {
       const remoteConfig = await this.fetchCurrentConfig(config.agent.id);
       
