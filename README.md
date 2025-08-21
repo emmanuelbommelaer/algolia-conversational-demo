@@ -36,18 +36,17 @@ A React application demonstrating Algolia's conversational search capabilities w
    ```bash
    cp .env.example .env
    ```
-   
+
    Edit `.env` with your Algolia credentials:
    ```bash
    # Algolia Configuration
    VITE_ALGOLIA_APP_ID=your_algolia_app_id
    VITE_ALGOLIA_API_KEY=your_algolia_search_api_key
    VITE_ALGOLIA_INDEX_NAME=your_index_name
-   
+
    # Algolia Agent Configuration (Dev Environment)
    VITE_AGENT_API_URL=https://conversational-ai-dev.algolia.com
    VITE_AGENT_ID=your_agent_id
-   VITE_AGENT_API_KEY=your_agent_api_key
    ```
 
 4. **Start the development server**:
@@ -96,7 +95,6 @@ npm run lint         # Run ESLint on all files
 | `VITE_ALGOLIA_API_KEY` | Algolia Search API Key (public) | ✅ |
 | `VITE_ALGOLIA_INDEX_NAME` | Name of your search index | ✅ |
 | `VITE_AGENT_ID` | Agent Studio Agent ID | ✅ |
-| `VITE_AGENT_API_KEY` | Agent Studio API Key | ✅ |
 | `VITE_AGENT_API_URL` | Agent API URL (defaults to dev) | ❌ |
 
 ## 📱 Usage Examples

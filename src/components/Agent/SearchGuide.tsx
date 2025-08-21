@@ -6,6 +6,7 @@ import { useSearch } from '../../contexts/SearchContext';
 export const SearchGuide: React.FC = () => {
   const { flowState, selectOption, removeFilter, isLoadingGuidance } = useSearchFlow();
   const { searchState } = useSearch();
+  
 
   const getStageIcon = (stage: string) => {
     switch (stage) {
@@ -21,6 +22,8 @@ export const SearchGuide: React.FC = () => {
         return '✨';
       case 'refine':
         return '🎯';
+      case 'error':
+        return '❌';
       default:
         return '🔍';
     }
@@ -142,16 +145,22 @@ export const SearchGuide: React.FC = () => {
           <span className="text-xs font-medium text-gray-600">Search Progress</span>
           <span className="text-xs text-gray-500">
             {flowState.stage === 'welcome' ? 'Getting started' : 
+             flowState.stage === 'error' ? 'Service unavailable' :
              flowState.stage === 'refine' ? 'Nearly there!' : 
              'Building your search'}
           </span>
         </div>
         <div className="w-full bg-gray-200 rounded-full h-2">
           <div 
-            className="bg-gradient-to-r from-blue-500 to-indigo-500 h-2 rounded-full transition-all duration-500"
+            className={`h-2 rounded-full transition-all duration-500 ${
+              flowState.stage === 'error' 
+                ? 'bg-gradient-to-r from-red-500 to-red-600' 
+                : 'bg-gradient-to-r from-blue-500 to-indigo-500'
+            }`}
             style={{ 
               width: `${
                 flowState.stage === 'welcome' ? '0%' :
+                flowState.stage === 'error' ? '100%' :
                 flowState.stage === 'location' ? '25%' :
                 flowState.stage === 'property_type' ? '50%' :
                 flowState.stage === 'price' ? '75%' :

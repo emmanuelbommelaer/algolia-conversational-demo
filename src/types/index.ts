@@ -61,9 +61,10 @@ export interface FacetOption {
 }
 
 export interface SearchFlowState {
-  stage: 'welcome' | 'location' | 'property_type' | 'price' | 'amenities' | 'refine';
+  stage: 'welcome' | 'location' | 'property_type' | 'price' | 'amenities' | 'refine' | 'error';
   resultCount: number;
   suggestedOptions: FacetOption[];
   agentMessage: string;
   completedStages: string[];
+  error?: string;
 }
