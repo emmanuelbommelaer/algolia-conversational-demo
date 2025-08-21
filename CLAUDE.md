@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Development rules
 - Test driven development: for each feature, write a test first, then build it.
 - Keep it simple: make the least possible edits to respect the specifications.
-- Commit often: every time you've built a feature or 
+- Commit small & often: every time you've built a feature or made significant changes to the codebase, create a commit.
 
 ## Essential Commands
 
