@@ -71,58 +71,80 @@ export class GuidedSearchAgent {
     
     if (!facetData) return options;
 
-    // Extract mentioned facets from agent message
-    // This is a simplified parser - in production, the agent should return structured data
-    
-    // Check for city mentions
-    if (facetData.cities && (agentMessage.toLowerCase().includes('city') || agentMessage.toLowerCase().includes('location'))) {
-      facetData.cities.forEach((city: any, index: number) => {
-        if (index < 6) {
-          options.push({
-            label: city.label,
-            value: city.value,
-            count: city.count,
-            category: 'location',
-            priority: city.count > 100 ? 'high' : city.count > 50 ? 'medium' : 'low',
-          });
-        }
-      });
-    }
-
-    // Check for property type mentions
-    if (facetData.propertyTypes && (agentMessage.toLowerCase().includes('property') || agentMessage.toLowerCase().includes('type'))) {
-      facetData.propertyTypes.forEach((type: any, index: number) => {
-        if (index < 4) {
-          options.push({
-            label: type.label,
-            value: type.value,
-            count: type.count,
-            category: 'property',
-            priority: type.count > 50 ? 'high' : 'medium',
-          });
-        }
-      });
-    }
-
-    // Check for price mentions
-    if (facetData.priceRange && agentMessage.toLowerCase().includes('price')) {
-      const { min, max } = facetData.priceRange;
-      if (min !== undefined && max !== undefined) {
-        const step = (max - min) / 4;
-        for (let i = 0; i < 4; i++) {
-          const rangeMin = Math.round(min + step * i);
-          const rangeMax = i < 3 ? Math.round(min + step * (i + 1)) : max;
-          options.push({
-            label: i < 3 ? `$${rangeMin} - $${rangeMax}` : `$${rangeMin}+`,
-            value: `${rangeMin}:${rangeMax}`,
-            count: 0,
-            category: 'price',
-          });
-        }
+    try {
+      // Extract JSON from agent message
+      const jsonMatch = agentMessage.match(/```json\s*(\{[\s\S]*?\})\s*```/) || 
+                       agentMessage.match(/(\{[^}]*"filter_choice"[^}]*\})/);
+      
+      if (!jsonMatch) {
+        console.warn('No JSON found in agent response, trying fallback parsing');
+        return this.fallbackParseOptions(agentMessage, facetData);
       }
+
+      const jsonData = JSON.parse(jsonMatch[1]);
+      
+      if (!jsonData.filter_choice) {
+        console.warn('No filter_choice found in agent JSON');
+        return this.fallbackParseOptions(agentMessage, facetData);
+      }
+
+      const filterChoice = jsonData.filter_choice;
+      const category = filterChoice.category;
+      const choiceOptions = filterChoice.options || [];
+
+      // Convert agent's choices to FacetOption format
+      choiceOptions.forEach((option: any) => {
+        options.push({
+          label: option.label,
+          value: option.value,
+          count: option.count || 0,
+          category: this.mapCategoryToInternal(category),
+          priority: option.count > 100 ? 'high' : option.count > 50 ? 'medium' : 'low',
+        });
+      });
+
+      // Limit to single choice as per requirements
+      return options.slice(0, 1);
+
+    } catch (error) {
+      console.error('Error parsing agent JSON response:', error);
+      return this.fallbackParseOptions(agentMessage, facetData);
+    }
+  }
+
+  private mapCategoryToInternal(agentCategory: string): string {
+    switch (agentCategory) {
+      case 'location': return 'location';
+      case 'property': return 'property';
+      case 'price': return 'price';
+      case 'amenities': return 'amenities';
+      default: return 'property';
+    }
+  }
+
+  private fallbackParseOptions(agentMessage: string, facetData: any): FacetOption[] {
+    // Fallback to single option from most relevant category
+    const options: FacetOption[] = [];
+
+    if (facetData.cities && facetData.cities.length > 0) {
+      options.push({
+        label: facetData.cities[0].label,
+        value: facetData.cities[0].value,
+        count: facetData.cities[0].count,
+        category: 'location',
+        priority: 'high',
+      });
+    } else if (facetData.propertyTypes && facetData.propertyTypes.length > 0) {
+      options.push({
+        label: facetData.propertyTypes[0].label,
+        value: facetData.propertyTypes[0].value,
+        count: facetData.propertyTypes[0].count,
+        category: 'property',
+        priority: 'high',
+      });
     }
 
-    return options;
+    return options.slice(0, 1); // Always return only one option
   }
 
   private determineNextStage(currentFilters: Record<string, any>): string {
