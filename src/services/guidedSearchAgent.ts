@@ -74,6 +74,8 @@ export class GuidedSearchAgent {
     try {
       // Extract JSON from agent message - try multiple patterns
       const jsonMatch = agentMessage.match(/```json\s*(\{[\s\S]*?\})\s*```/) || 
+                       agentMessage.match(/(\{[^}]*"text"[^}]*"filters"[^}]*\})/g) ||
+                       agentMessage.match(/(\{[^}]*"filters"[^}]*"text"[^}]*\})/g) ||
                        agentMessage.match(/(\{[^}]*"filter_choice"[^}]*\})/g) ||
                        agentMessage.match(/(\{[^}]*"filterOptions"[^}]*\})/g) ||
                        agentMessage.match(/(\{[^}]*"cities"[^}]*\})/g) ||
@@ -87,8 +89,31 @@ export class GuidedSearchAgent {
       const jsonData = JSON.parse(jsonMatch[1] || jsonMatch[0]);
       console.log('Parsed agent JSON:', jsonData);
       
-      // Handle the specified filter_choice format
-      if (jsonData.filter_choice) {
+      // Handle the new format with 'text' and 'filters' keys
+      if (jsonData.text && jsonData.filters) {
+        const filters = jsonData.filters;
+        
+        // If filters is null, it means perfect results - no filter needed
+        if (filters === null) {
+          console.log('Agent says perfect results - no filter needed');
+          return [];
+        }
+        
+        const category = filters.category;
+        const choiceOptions = filters.options || [];
+
+        choiceOptions.forEach((option: any) => {
+          options.push({
+            label: option.label,
+            value: option.value,
+            count: option.count || 0,
+            category: this.mapCategoryToInternal(category) as 'location' | 'property' | 'price' | 'amenities',
+            priority: option.count > 100 ? 'high' : option.count > 50 ? 'medium' : 'low',
+          });
+        });
+      }
+      // Handle the legacy filter_choice format for backward compatibility
+      else if (jsonData.filter_choice) {
         const filterChoice = jsonData.filter_choice;
         const category = filterChoice.category;
         const choiceOptions = filterChoice.options || [];
