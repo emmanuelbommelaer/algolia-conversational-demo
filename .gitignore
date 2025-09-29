@@ -30,3 +30,4 @@ dist-ssr
 
 # Scripts directory
 # scripts/ # Needed for GitHub Actions
+.env.example

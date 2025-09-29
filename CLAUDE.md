@@ -23,7 +23,7 @@ npm run lint         # Run ESLint on all files
 # Agent Management
 npm run agent:edit     # Open agent configuration for editing
 npm run agent:validate # Validate agent.json syntax
-npm run agent:compare  # Compare local vs remote configuration  
+npm run agent:compare  # Compare local vs remote configuration
 npm run agent:push     # Deploy local config to Algolia API
 ```
 
